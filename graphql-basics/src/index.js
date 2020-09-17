@@ -147,6 +147,7 @@ const resolvers = {
                        return user.name.toLowerCase().includes(args.query.toLowerCase())
                 })
             },
+            
             posts(parent, args, ctx, info){
                 if(!args.query){
                     return posts
@@ -163,6 +164,7 @@ const resolvers = {
                 return comments
             }
         },
+        //post object gets related data from the original call and is neede to make Post-> Author and Post-> comments relationship
         Post : {
             author(parent,args,ctx,info){
                 return users.find((user) => {
@@ -175,6 +177,7 @@ const resolvers = {
                 })
             }
         },
+        //User object gets related data from the original call and is neede to make Author-> Post and Author-> comments relationship
         User : {
             posts(parent,args,ctx,info){
                 return posts.filter((post) => {
@@ -188,6 +191,7 @@ const resolvers = {
                 })
             }
         },
+        //User object gets related data from the original call and is neede to make Comment-> Author and Comment-> Post relationship
         Comment : {
             author(parent,args,ctx,info){
                 return users.find((user) =>{
