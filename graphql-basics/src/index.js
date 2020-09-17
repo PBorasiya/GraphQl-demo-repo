@@ -35,37 +35,54 @@ const users = [{
 //Demo post data
 
 const posts = [{
-                    id: '1',
-                    title: "GraphQl 101",
-                    body: "Welcome to the introductory course on GraphQL",
-                    published: true,
-                    author : '1'
-                },{
-                    id: '2',
-                    title: "Cricket 102",
-                    body: "Welcome to the advance course on Cricket",
-                    published: true,
-                    author : '1'
-                },{
-                    id: '3',
-                    title: "Music 103",
-                    body: "Welcome to the elite course on Music",
-                    published: false,
-                    author : '2'
-                },{
-                    id: '4',
-                    title: "GraphQl 104",
-                    body: "Welcome to the master course on GraphQL",
-                    published: false,
-                    author : '3'
-                }
+            id: '1',
+            title: "GraphQl 101",
+            body: "Welcome to the introductory course on GraphQL",
+            published: true,
+            author : '1'
+        },{
+            id: '2',
+            title: "Cricket 102",
+            body: "Welcome to the advance course on Cricket",
+            published: true,
+            author : '1'
+        },{
+            id: '3',
+            title: "Music 103",
+            body: "Welcome to the elite course on Music",
+            published: false,
+            author : '2'
+        },{
+            id: '4',
+            title: "GraphQl 104",
+            body: "Welcome to the master course on GraphQL",
+            published: false,
+            author : '3'
+        }
                 ]
+
+const comments = [{
+            id : '101',
+            text : 'First Comment'
+        },{
+            id : '102',
+            text : 'Second Comment'
+        },{
+            id : '103',
+            text : 'Third Comment'
+        },{
+            id : '104',
+            text : 'Fourth Comment'             
+}]
+
+
 const typeDefs = `
     type Query{
         me : User!
         post : Post!
         users(query : String) : [User!]!
         posts(query : String) : [Post!]!
+        comments : [Comment!]!
     }
 
     type User{
@@ -82,6 +99,11 @@ const typeDefs = `
         body : String!
         published : Boolean!
         author : User!
+    }
+
+    type Comment{
+        id : ID!
+        text : String!
     }
 `
 
@@ -124,6 +146,9 @@ const resolvers = {
 
                     return isTitleMatch || isBodyMatch
                 })
+            },
+            comments(parent,args,ctx,info){
+                return comments
             }
         },
         Post : {
