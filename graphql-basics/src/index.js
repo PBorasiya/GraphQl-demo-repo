@@ -93,6 +93,10 @@ const typeDefs = `
         comments : [Comment!]!
     }
 
+    type Mutation {
+        createUser( name : String! , email : String!, age : Int!) : User!
+    }
+
     type User{
         id : ID!
         name : String!
@@ -162,6 +166,11 @@ const resolvers = {
             },
             comments(parent,args,ctx,info){
                 return comments
+            }
+        },
+        Mutation : {
+            createUser(parent, args, ctx, info){
+               
             }
         },
         //post object gets related data from the original call and is neede to make Post-> Author and Post-> comments relationship
