@@ -93,7 +93,8 @@ const typeDefs = `
 
     type Mutation {
         createUser( name : String! , email : String!, age : Int!) : User!
-    }
+        createPost( title : String!, body : String! , published : Boolean!, author : ID!) : Post!
+    } 
 
     type User{
         id : ID!
@@ -184,6 +185,25 @@ const resolvers = {
                users.push(user)
 
                return user
+            },
+            createPost(parent, args, ctx, info){
+                const userExists = users.some((user) => user.id === args.author)
+
+                if(!userExists){
+                    throw new Error('User does not exist')
+                }
+
+                const post = {
+                    id : uuidv4(),
+                    title : args.title,
+                    body : args.body,
+                    published : args.published,
+                    author : args.author
+                }
+
+                posts.push(post)
+
+                return post
             }
         },
         //post object gets related data from the original call and is neede to make Post-> Author and Post-> comments relationship
