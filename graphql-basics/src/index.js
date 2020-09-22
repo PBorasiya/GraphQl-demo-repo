@@ -1,7 +1,5 @@
-import {
-    GraphQLServer
-} from 'graphql-yoga'
-
+import {GraphQLServer} from 'graphql-yoga'
+import uuidv4 from 'uuid/v4'
 
 //Demo user data
 
@@ -170,7 +168,22 @@ const resolvers = {
         },
         Mutation : {
             createUser(parent, args, ctx, info){
-               
+               const emailTaken = users.some((user) => user.email === args.email)
+
+               if(emailTaken){
+                   throw new Error('email already taken.')
+               }
+
+               const user = {
+                    id : uuidv4(),
+                    name : args.name,
+                    email : args.email,
+                    age : args.age
+               }
+
+               users.push(user)
+
+               return user
             }
         },
         //post object gets related data from the original call and is neede to make Post-> Author and Post-> comments relationship
