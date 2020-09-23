@@ -1,88 +1,6 @@
 import {GraphQLServer} from 'graphql-yoga'
 import uuidv4 from 'uuid/v4'
-
-//Demo user data
-
-let users = [{
-            id: "1",
-            name: "Pranav",
-            email: "example.com",
-            age: 26
-        }, {
-            id: "2",
-            name: "Vishakha",
-            email: "vishoo.com",
-            age: 26
-        }, {
-            id: "3",
-            name: "Neel",
-            email: "neel.com",
-            age: 25
-        }, {
-            id: "4",
-            name: "Raja",
-            email: "raja.com",
-            age: 21
-        },{
-            id: "5",
-            name: "Jay",
-            email: "jay.com",
-            age: 23
-        }]
-
-//Demo post data
-
-let posts = [{
-            id: '1',
-            title: "GraphQl 101",
-            body: "Welcome to the introductory course on GraphQL",
-            published: true,
-            author : '1'
-        },{
-            id: '2',
-            title: "Cricket 102",
-            body: "Welcome to the advance course on Cricket",
-            published: true,
-            author : '1'
-        },{
-            id: '3',
-            title: "Music 103",
-            body: "Welcome to the elite course on Music",
-            published: false,
-            author : '2'
-        },{
-            id: '4',
-            title: "GraphQl 104",
-            body: "Welcome to the master course on GraphQL",
-            published: false,
-            author : '3'
-        }
-                ]
-
-let comments = [{
-            id : '101',
-            text : 'First Comment',
-            author : '1',
-            post : '1'
-        },{
-            id : '102',
-            text : 'Second Comment',
-            author : '2',
-            post : '2'
-        },{
-            id : '103',
-            text : 'Third Comment',
-            author : '3',
-            post : '3'
-        },{
-            id : '104',
-            text : 'Fourth Comment',   
-            author : '1',
-            post : '1'          
-}]
-
-
-
+import db from './db'
 
 const resolvers = {
         Query: {
@@ -278,7 +196,10 @@ const resolvers = {
 
         const server = new GraphQLServer({
             typeDefs : './src/schema.graphql',
-            resolvers
+            resolvers,
+            context : {
+                db
+            }
         })
 
         server.start(() => {
