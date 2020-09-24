@@ -9,13 +9,15 @@ type Query{
 type Mutation {
     createUser( data : CreateUserInput ) : User!
     deleteUser(id : ID!) : User!
-    updateUser( id : ID! , data : updateUserInput!) : User!
+    updateUser( id : ID! , data : UpdateUserInput!) : User!
 
     createPost( data : CreatePostInput ) : Post!
     deletePost( id : ID! ) : Post!
+    updatePost( id : ID!, data : UpdatePostInput!) : Post!
 
     createComment( data : CreateCommentInput ) : Comment!
     deleteComment( id : ID!) : Comment!
+    updateComment( id : ID!, data : UpdateCommentInput!) : Comment!
 } 
 
 ##input type must only include scalar type and cannot have any object or complex type.
@@ -25,7 +27,7 @@ input CreateUserInput{
     age : Int!
 }
 
-input updateUserInput{
+input UpdateUserInput{
     name : String
     email : String
     age : Int
@@ -38,11 +40,20 @@ input CreatePostInput{
     author : ID!
 }
 
+input UpdatePostInput{
+    title : String
+    body : String
+    published : Boolean
+}
 
 input CreateCommentInput{
     text : String!
     author : ID!
     post : ID!
+}
+
+input UpdateCommentInput{
+    text : String
 }
 
 type User{
