@@ -43,7 +43,7 @@ const posts = [{
     id: '3',
     title: "Music 103",
     body: "Welcome to the elite course on Music",
-    published: false,
+    published: true,
     author : '2'
 },{
     id: '4',

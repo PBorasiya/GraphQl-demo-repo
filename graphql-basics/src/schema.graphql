@@ -20,6 +20,11 @@ type Mutation {
     updateComment( id : ID!, data : UpdateCommentInput!) : Comment!
 } 
 
+
+type Subscription{
+    comment(postId : ID!) : Comment!
+}
+
 ##input type must only include scalar type and cannot have any object or complex type.
 input CreateUserInput{
     name : String!
