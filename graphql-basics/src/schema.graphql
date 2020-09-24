@@ -23,6 +23,7 @@ type Mutation {
 
 type Subscription{
     comment(postId : ID!) : Comment!
+    post : Post!
 }
 
 ##input type must only include scalar type and cannot have any object or complex type.
