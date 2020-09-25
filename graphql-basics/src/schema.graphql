@@ -22,8 +22,9 @@ type Mutation {
 
 
 type Subscription{
-    comment(postId : ID!) : Comment!
+    comment(postId : ID!) : CommentSubscriptionPayload!
     post : PostSubscriptionPayload!
+    
 }
 
 ##input type must only include scalar type and cannot have any object or complex type.
@@ -90,4 +91,9 @@ type Comment{
 type PostSubscriptionPayload{
     mutation : String!
     data : Post!
+}
+
+type CommentSubscriptionPayload{
+    mutation : String!
+    data : Comment!
 }
