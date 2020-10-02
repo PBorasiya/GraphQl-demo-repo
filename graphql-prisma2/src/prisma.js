@@ -15,8 +15,8 @@ const prisma = new Prisma({
 
 prisma.mutation.createPost({
     data : {
-        title : "new graphqlpost from prisma-bonding",
-        body : "ajakkjahfdhfjasjfsaf",
+        title : "new graphqlpost from prisma-binding",
+        body : "ajakkjahfdhfjasjfsafdsaddadjshfahn bjbfhakfhajsd adka dkaxdhakjh  hjfhjkrhanxa",
         published : true,
         author : {
             connect : {
@@ -25,5 +25,8 @@ prisma.mutation.createPost({
         }
     }
 },'{id title body author{id name email}}').then((data) =>{
+    console.log(JSON.stringify(data,undefined,4))
+    return prisma.query.users(null, '{id name email posts{ id body title published}}')
+}).then((data)=>{
     console.log(JSON.stringify(data,undefined,4))
 })
