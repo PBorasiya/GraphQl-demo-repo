@@ -28,50 +28,62 @@ const prisma = new Prisma({
 //     console.log(JSON.stringify(data,undefined,4))
 // })
 
-// const createPostForUser = async(authorId, data) =>{
-//     const post = await prisma.mutation.createPost({
-//         data : {
-//             ...data,
-//             author : {
-//                 connect : {
-//                     id : authorId
-//                 }
-//             }
-//         }
-//     }, '{ id }')
-//     const user = await prisma.query.user({
-//         where : {
-//             id : authorId
-//         }
-//     }, '{id name email posts{ id title body published}}')
-//     return user
-// }
+const createPostForUser = async(authorId, data) =>{
+
+    const userExists = await prisma.exists.User({ id : authorId})
+
+    if(!userExists){
+        throw new Error('User not found')
+    }
+
+    const post = await prisma.mutation.createPost({
+        data : {
+            ...data,
+            author : {
+                connect : {
+                    id : authorId
+                }
+            }
+        }
+    }, '{ author {id name email posts{id title body published}}}')
+    
+    return post.author
+}
 
 // createPostForUser('ckfrhqmxl00110779i1zelp7z', {
-//     title : 'How to get your man listening to you',
+//     title : 'How to get your man listening to you 2.0',
 //     body : 'They do listen, they just ignore you for sports. so wait for game to be over then talk',
 //     published : true
 // }).then((user)=>{
 //     console.log(JSON.stringify(user,undefined,4))
+//  }).catch((error)=>{
+//     console.log(error.message)
 // })
 
+
+
 const updatePostForUser = async(postId, data) =>{
+
+    const postExists = await prisma.exists.Post({ id : postId})
+
+    if(!postExists){
+        throw new Error('Post does not exist')
+    }
+
     const post = await prisma.mutation.updatePost({
         where : {
             id : postId
         },
         data
-    }, '{author {id name email}}')
-    const user = await prisma.query.user({
-        where:{
-            id : post.author.id
-        }
-    }, '{id name email posts {id title published}}')
-    return user
+    }, '{author {id name email posts {id title  body published }}}')
+    
+    return post.author
 }
 
 updatePostForUser('ckfswyesw001c0879rfboeton', {
-    "title": "How to get your man listening to you 3.0"
+    "title": "How to get your man listening to you 13.0"
 }).then((user)=>{
     console.log(JSON.stringify(user,undefined,4))
+ }).catch((error)=>{
+    console.log(error.message)
 })
