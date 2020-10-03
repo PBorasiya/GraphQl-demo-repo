@@ -80,10 +80,10 @@ const updatePostForUser = async(postId, data) =>{
     return post.author
 }
 
-updatePostForUser('ckfswyesw001c0879rfboeton', {
-    "title": "How to get your man listening to you 13.0"
-}).then((user)=>{
-    console.log(JSON.stringify(user,undefined,4))
- }).catch((error)=>{
-    console.log(error.message)
-})
+// updatePostForUser('ckfswyesw001c0879rfboeton', {
+//     "title": "How to get your man listening to you 13.0"
+// }).then((user)=>{
+//     console.log(JSON.stringify(user,undefined,4))
+//  }).catch((error)=>{
+//     console.log(error.message)
+// })
