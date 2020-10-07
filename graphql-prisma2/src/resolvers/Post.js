@@ -1,15 +1,6 @@
 //post object gets related data from the original call and is neede to make Post-> Author and Post-> comments relationship
 const Post = {
-    author(parent,args,{db},info){
-        return db.users.find((user) => {
-            return user.id === parent.author
-        })
-    },
-    comments(parent, args, {db}, info){
-        return db.comments.filter((comment) => {
-            return comment.post === parent.id
-        })
-    }
+    
 }
 
 export { Post as default }
