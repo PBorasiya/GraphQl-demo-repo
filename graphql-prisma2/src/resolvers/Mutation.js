@@ -36,7 +36,7 @@ const Mutation =  {
         },info)
         
     },
-    createPost(parent, args, { db , pubsub, prisma }, info){
+    async createPost(parent, args, { prisma }, info){
 
         return prisma.mutation.createPost({
             data :{
@@ -52,27 +52,13 @@ const Mutation =  {
         }, info)
 
     },
-    deletePost(parent, args, {db , pubsub}, info){
-        const postIndex = db.posts.findIndex((post) => post.id === args.id)
+    async deletePost(parent, args, { prisma }, info){
 
-        if(postIndex === -1){
-            throw new Error('Post does not exist.')
-        }
-
-        const [post] = db.posts.splice(postIndex,1)
-
-        db.comments = db.comments.filter((comment) => comment.post !== args.id)
-
-        if(post.published){
-            pubsub.publish('post', {
-                post : {
-                    mutation : 'DELETED',
-                    data : post
-                }
-            })
-        }
-        
-        return post
+        return prisma.mutation.deletePost({
+            where:{
+                id : args.id
+            }
+        },info)
 
     },
     updatePost(parent, args, {db ,  pubsub} , info){
