@@ -4,8 +4,6 @@ const Mutation =  {
     async createUser(parent, args, { prisma }, info){
 
         const emailTaken = await prisma.exists.User({email : args.data.email})
-    
-    
 
        if(emailTaken){
            throw new Error('email already taken.')
@@ -17,12 +15,10 @@ const Mutation =  {
     async deleteUser(parent, args, { prisma }, info){
 
         const userExists = await prisma.exists.User({ id : args.id})
-        
 
         if(!userExists){
             throw new Error('User not found.')
         }
-
 
         return prisma.mutation.deleteUser({
             where :{
@@ -40,31 +36,21 @@ const Mutation =  {
         },info)
         
     },
-    createPost(parent, args, { db , pubsub}, info){
-        const userExists = db.users.some((user) => user.id === args.data.author)
+    createPost(parent, args, { db , pubsub, prisma }, info){
 
-        if(!userExists){
-            throw new Error('User does not exist')
-        }
-
-        const post = {
-            id : uuidv4(),
-            ...args.data
-        }
-
-        db.posts.push(post)
-
-        if(args.data.published){
-            pubsub.publish('post',{ 
-                post : {
-                    mutation : 'CREATED',
-                    data: post
+        return prisma.mutation.createPost({
+            data :{
+                title : args.data.title,
+                body : args.data.body,
+                published : args.data.published,
+                author : {
+                    connect : {
+                        id : args.data.author
+                    }
                 }
-             })
-        }
-        
+            }
+        }, info)
 
-        return post
     },
     deletePost(parent, args, {db , pubsub}, info){
         const postIndex = db.posts.findIndex((post) => post.id === args.id)
