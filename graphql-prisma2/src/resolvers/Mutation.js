@@ -61,51 +61,15 @@ const Mutation =  {
         },info)
 
     },
-    updatePost(parent, args, {db ,  pubsub} , info){
-        const post = db.posts.find((post) => post.id === args.id)
-        const originalPost = {...post}
+    async updatePost(parent, args, { prisma } , info){
 
-        if(!post){
-            throw new Error('Post does not exist')
-        }
-
-        if(typeof args.data.title === 'string'){
-            post.title = args.data.title
-        }
-
-        if(typeof args.data.body === 'string'){
-            post.body = args.data.body
-        }
-
-        if(typeof args.data.published === 'boolean'){
-            post.published = args.data.published
-
-            if(originalPost.published && !post.published){
-                //deleted even
-                pubsub.publish('post',{
-                    post: {
-                        mutation : 'DELETED',
-                        data : originalPost
-                    }
-                })
-            }else if(!originalPost.published && post.published){
-                pubsub.publish('post',{
-                    post : {
-                        mutation : 'CREATED',
-                        data : post
-                    }
-                })
+        return prisma.mutation.updatePost({
+            data : args.data,
+            where : {
+                id : args.id
             }
-        }else if(post.published){
-            pubsub.publish('post', {
-                post : {
-                    mutation : 'UPDATED',
-                    data : post
-                }
-            })
-        }
-
-        return post
+        }, info)
+        
     },
     createComment(parent, args, {db,pubsub}, info){
         const userExists = db.users.some((user) => user.id === args.data.author)
