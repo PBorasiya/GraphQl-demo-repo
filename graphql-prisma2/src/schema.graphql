@@ -7,7 +7,7 @@ type Query{
 }
 
 type Mutation {
-    createUser( data : CreateUserInput ) : User!
+    createUser( data : CreateUserInput ) : AuthPayload!
     deleteUser(id : ID!) : User!
     updateUser( id : ID! , data : UpdateUserInput!) : User!
 
@@ -25,6 +25,11 @@ type Subscription{
     comment(postId : ID!) : CommentSubscriptionPayload!
     post : PostSubscriptionPayload!
     
+}
+
+type AuthPayload{
+    token : String!
+    user : User!
 }
 
 ##input type must only include scalar type and cannot have any object or complex type.
