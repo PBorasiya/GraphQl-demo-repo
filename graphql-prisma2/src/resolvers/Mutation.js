@@ -1,4 +1,4 @@
-import uuidv4 from 'uuid/v4'
+import bcrypt from 'bcryptjs'
 
 const Mutation =  {
     async createUser(parent, args, { prisma }, info){
