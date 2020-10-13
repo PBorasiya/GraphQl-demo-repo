@@ -3,11 +3,7 @@ import uuidv4 from 'uuid/v4'
 const Mutation =  {
     async createUser(parent, args, { prisma }, info){
 
-        const emailTaken = await prisma.exists.User({email : args.data.email})
-
-       if(emailTaken){
-           throw new Error('email already taken.')
-       }
+    
 
        return prisma.mutation.createUser({ data: args.data } , info)
 
