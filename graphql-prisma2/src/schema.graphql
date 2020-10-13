@@ -66,6 +66,7 @@ type User{
     name : String!
     age : Int!
     email : String!
+    password : String!
     posts : [Post!]!
     comments : [Comment!]!
 }
