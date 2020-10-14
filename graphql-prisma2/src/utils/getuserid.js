@@ -11,8 +11,6 @@ const getUserId = (request) => {
     const token = header.replace('Bearer ','')
     const decoded = jwt.verify(token,'thisisasecret')
 
-    console.log(decoded)
-
     return decoded.userId
 
 }
