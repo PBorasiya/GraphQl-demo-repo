@@ -2,6 +2,28 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 const Mutation =  {
+    async loginUser(parent, args, {prisma}, info){
+        const user = await prisma.query.user({
+            where:{
+                email : args.data.email
+            }
+        })
+        
+        if(!user){
+            throw new Error('Unable to log in')
+        }
+
+        const isMatch = await bcrypt.compare(args.data.password, user.password)
+
+        if(!isMatch){
+            throw new Error('Unable to login')
+        }
+
+        return {
+            user,
+            token : jwt.sign({userId : user.id} , 'thisisasecret')
+        }
+    },
     async createUser(parent, args, { prisma }, info){
 
         if(args.data.password.length < 8){
