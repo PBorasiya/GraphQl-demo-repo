@@ -1,3 +1,5 @@
+import getUserId from './../utils/getuserid'
+
 const Query = {
     
     users(parent, args, { prisma }, info) {
@@ -37,6 +39,9 @@ const Query = {
     comments(parent,args,{ prisma },info){
         
         return prisma.query.comments(null , info)
+    },
+    post(parent, args, { prisma, request }, info){
+        const user = getuserid
     }
 }
 
