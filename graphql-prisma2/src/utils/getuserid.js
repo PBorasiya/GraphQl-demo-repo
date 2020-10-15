@@ -15,7 +15,7 @@ const getUserId = (request, requireAuth = true ) => {
         throw new Error('Authentication required')
     }
     
-
+    return null
 }
 
 export {getUserId as default}
