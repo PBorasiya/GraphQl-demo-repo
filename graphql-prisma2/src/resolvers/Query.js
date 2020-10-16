@@ -19,19 +19,21 @@ const Query = {
         return prisma.query.users(opArgs, info)
 
     },
-    
-    posts(parent, args, { prisma }, info){
+    async posts(parent, args, { prisma, request }, info){
 
-        const opArgs = {}
+        const opArgs = {
+            where : {
+                published : true
+            }
+        }
 
         if(args.query){
-            opArgs.where={
-                OR : [{
-                    title_contains : args.query
-                },{
-                    body_contains: args.query
-                }]
-            }
+
+            opArgs.where.OR = [{
+                title_contains : args.query
+            },{
+                body_contains: args.query
+            }]
         }
 
         return prisma.query.posts(opArgs, info)
