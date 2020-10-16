@@ -185,7 +185,22 @@ const Mutation =  {
     },
     async updateComment(parent, args, { prisma,request }, info){
 
-        const userId = getUserId(request)        
+        const userId = getUserId(request)      
+        
+        const isPublished = await prisma.exists.Post({
+            id : args.id,
+            published : true
+        })
+
+        if(isPublished && args.data.published === false){
+            await prisma.mutation.deleteManyComments({
+                where : {
+                    post : {
+                        id : args.id
+                    }
+                }
+            })
+        }
 
         const commentExists = await prisma.exists.Comment({
             id : args.id,
