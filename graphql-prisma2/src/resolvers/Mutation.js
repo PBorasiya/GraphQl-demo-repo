@@ -137,6 +137,15 @@ const Mutation =  {
 
         const userId = getUserId(request)
 
+        const postExists = await prisma.exists.Post({
+            id : args.data.post,
+            published : true
+        })
+
+        if(!postExists){
+            throw new Error('Post does not exist')
+        }
+
         return prisma.mutation.createComment({
             data:{
                 text : args.data.text,
