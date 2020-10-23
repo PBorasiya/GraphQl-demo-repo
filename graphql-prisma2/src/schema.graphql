@@ -83,6 +83,8 @@ type User{
     password : String!
     posts : [Post!]!
     comments : [Comment!]!
+    updatedAt : String!
+    createdAt : String!
 }
 
 type Post{
@@ -92,6 +94,8 @@ type Post{
     published : Boolean!
     author : User!
     comments : [Comment!]!
+    updatedAt : String!
+    createdAt : String!
 }
 
 type Comment{
@@ -99,6 +103,8 @@ type Comment{
     text : String!
     author : User!
     post : Post!
+    updatedAt : String!
+    createdAt : String!
 }
 
 enum MutationType{
