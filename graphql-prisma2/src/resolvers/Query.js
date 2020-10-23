@@ -25,7 +25,9 @@ const Query = {
         const opArgs = {
             where : {
                 published : true
-            }
+            },
+            first : args.first,
+            skip : args.skip
         }
 
         if(args.query){
